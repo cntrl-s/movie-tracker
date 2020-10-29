@@ -1,7 +1,5 @@
 package org.eldi.movietracker.movie;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.net.URL;
 
 public class Movie {
