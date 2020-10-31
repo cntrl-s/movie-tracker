@@ -3,7 +3,7 @@ package org.eldi.movietracker.movie;
 import java.util.List;
 import java.util.Optional;
 
-public class H2MovieRepository implements MovieRepository{
+public class H2MovieRepository implements MovieRepository {
     public void save(Movie movie) {
 
     }

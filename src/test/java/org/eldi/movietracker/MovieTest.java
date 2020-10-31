@@ -2,7 +2,6 @@ package org.eldi.movietracker;
 
 import org.eldi.movietracker.movie.Movie;
 import org.eldi.movietracker.util.JacksonUtil;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
