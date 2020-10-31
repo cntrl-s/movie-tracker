@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -37,7 +38,7 @@ public class Movie {
 
     private URL poster;
 
-    private Map<String, String> ratings;
+    private List<Map<String, String>> ratings;
 
     @JsonProperty(value = "Metascore")
     private int metaScore;
@@ -167,11 +168,11 @@ public class Movie {
         this.poster = poster;
     }
 
-    public Map getRatings() {
+    public List<Map<String, String>> getRatings() {
         return ratings;
     }
 
-    public void setRatings(Map ratings) {
+    public void setRatings(List<Map<String, String>> ratings) {
         this.ratings = ratings;
     }
 
@@ -239,7 +240,7 @@ public class Movie {
                 .add("country='" + country + "'")
                 .add("awards='" + awards + "'")
                 .add("posterUrl=" + poster)
-//                .add("ratings=" + ratings)
+                .add("ratings=" + ratings)
                 .add("metaScore=" + metaScore)
                 .add("imdbRating=" + imdbRating)
                 .add("imdbVotes='" + imdbVotes + "'")
