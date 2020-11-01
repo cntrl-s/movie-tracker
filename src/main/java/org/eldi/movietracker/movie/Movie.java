@@ -1,9 +1,13 @@
 package org.eldi.movietracker.movie;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.eldi.movietracker.util.FormattedNumberDeserializer;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -16,7 +20,8 @@ public class Movie {
 
     private String rated;
 
-    private String released;
+    @JsonFormat(pattern = "dd MMM yyyy")
+    private Date released;
 
     private String runtime;
 
@@ -46,8 +51,9 @@ public class Movie {
     @JsonProperty(value = "imdbRating")
     private double imdbRating;
 
+    @JsonDeserialize(using = FormattedNumberDeserializer.class)
     @JsonProperty(value = "imdbVotes")
-    private String imdbVotes;
+    private long imdbVotes;
 
     @JsonProperty(value = "imdbID")
     private String imdbID;
@@ -80,11 +86,11 @@ public class Movie {
         this.rated = rated;
     }
 
-    public String getReleased() {
+    public Date getReleased() {
         return released;
     }
 
-    public void setReleased(String released) {
+    public void setReleased(Date released) {
         this.released = released;
     }
 
@@ -192,11 +198,11 @@ public class Movie {
         this.imdbRating = imdbRating;
     }
 
-    public String getImdbVotes() {
+    public long getImdbVotes() {
         return imdbVotes;
     }
 
-    public void setImdbVotes(String imdbVotes) {
+    public void setImdbVotes(long imdbVotes) {
         this.imdbVotes = imdbVotes;
     }
 
