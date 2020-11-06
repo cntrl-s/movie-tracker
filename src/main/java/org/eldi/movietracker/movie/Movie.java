@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.eldi.movietracker.util.FormattedNumberDeserializer;
 
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +40,7 @@ public class Movie {
 
     private String awards;
 
-    private URL poster;
+    private String poster;
 
     private List<Map<String, String>> ratings;
 
@@ -166,11 +165,11 @@ public class Movie {
         this.awards = awards;
     }
 
-    public URL getPoster() {
+    public String getPoster() {
         return poster;
     }
 
-    public void setPoster(URL poster) {
+    public void setPoster(String poster) {
         this.poster = poster;
     }
 
