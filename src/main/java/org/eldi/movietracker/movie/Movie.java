@@ -8,7 +8,6 @@ import org.eldi.movietracker.util.FormattedNumberDeserializer;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.StringJoiner;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -42,7 +41,7 @@ public class Movie {
 
     private String poster;
 
-    private List<Map<String, String>> ratings;
+    private List<Rating> ratings;
 
     @JsonProperty(value = "Metascore")
     private int metaScore;
@@ -173,11 +172,11 @@ public class Movie {
         this.poster = poster;
     }
 
-    public List<Map<String, String>> getRatings() {
+    public List<Rating> getRatings() {
         return ratings;
     }
 
-    public void setRatings(List<Map<String, String>> ratings) {
+    public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
     }
 
