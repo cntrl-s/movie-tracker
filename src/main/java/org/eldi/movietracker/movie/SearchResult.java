@@ -1,20 +1,26 @@
 package org.eldi.movietracker.movie;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.StringJoiner;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchResult {
     private String title;
 
     private String year;
 
+    @JsonProperty("imdbID")
     private String imdbID;
 
     private Type type;
 
-    @JsonProperty("poster")
+    @JsonProperty("Poster")
     private String posterUrl;
+
+    public SearchResult() {
+    }
 
     public SearchResult(String title, String year, String imdbID, Type type, String posterUrl) {
         this.title = title;
