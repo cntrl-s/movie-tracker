@@ -1,11 +1,11 @@
 package org.eldi.movietracker.movie;
 
 import java.util.List;
-import java.util.Optional;
 
 public class MovieServiceImpl implements MovieService {
 
-    public Optional<List<Movie>> search(String searchQuery) {
-        return Optional.empty();
+    // TODO fetch search results and persist selected result
+    public List<SearchResult> search(String searchQuery) {
+        return null;
     }
 }
