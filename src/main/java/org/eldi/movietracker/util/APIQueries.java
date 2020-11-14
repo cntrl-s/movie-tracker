@@ -2,7 +2,8 @@ package org.eldi.movietracker.util;
 
 public class APIQueries {
     private static final String BASE_URL = "https://www.omdbapi.com";
-    private static final String API_KEY = "&apikey=";
+    // TODO apikey
+    private static final String API_KEY = "&apikey=" + "apikey";
 
     public static String getSearchQuery(String searchQuery) {
         // format query
