@@ -7,13 +7,14 @@ import org.eldi.movietracker.util.JacksonUtil;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieServiceImpl implements MovieService {
 
     public List<SearchResult> search(String searchQuery) {
         String apiQueryUrl = APIQueries.getSearchQuery(searchQuery);
-        List<SearchResult> results = null;
+        List<SearchResult> results = new ArrayList<>();
         try {
             JsonNode jsonResults = JacksonUtil.OBJECT_MAPPER
                     .readTree(new URL(apiQueryUrl))
