@@ -1,12 +1,21 @@
 package org.eldi.movietracker.movie;
 
-import java.io.Serializable;
 import java.util.StringJoiner;
 
-public class Rating implements Serializable {
+public class Rating {
+    private int id;
+
     private String source;
 
     private String value;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getSource() {
         return source;
@@ -26,6 +35,7 @@ public class Rating implements Serializable {
 
     public String toString() {
         return new StringJoiner(", ", Rating.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
                 .add("source='" + source + "'")
                 .add("value='" + value + "'")
                 .toString();

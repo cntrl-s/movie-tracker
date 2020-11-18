@@ -13,6 +13,8 @@ import java.util.StringJoiner;
 @JsonIgnoreProperties(ignoreUnknown = true)
 // TODO BaseMedia Type ?
 public class Movie {
+    private int id;
+
     private String title;
 
     private int year;
@@ -60,6 +62,14 @@ public class Movie {
     private Type type;
 
     private boolean response;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -231,11 +241,12 @@ public class Movie {
 
     public String toString() {
         return new StringJoiner(", ", Movie.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
                 .add("title='" + title + "'")
-                .add("year='" + year + "'")
+                .add("year=" + year)
                 .add("rated='" + rated + "'")
-                .add("released='" + released + "'")
-                .add("runtime=" + runtime)
+                .add("released=" + released)
+                .add("runtime='" + runtime + "'")
                 .add("genre='" + genre + "'")
                 .add("director='" + director + "'")
                 .add("writer='" + writer + "'")
@@ -244,13 +255,14 @@ public class Movie {
                 .add("language='" + language + "'")
                 .add("country='" + country + "'")
                 .add("awards='" + awards + "'")
-                .add("posterUrl=" + poster)
+                .add("poster='" + poster + "'")
                 .add("ratings=" + ratings)
                 .add("metaScore=" + metaScore)
                 .add("imdbRating=" + imdbRating)
-                .add("imdbVotes='" + imdbVotes + "'")
+                .add("imdbVotes=" + imdbVotes)
                 .add("imdbID='" + imdbID + "'")
                 .add("type=" + type)
+                .add("response=" + response)
                 .toString();
     }
 }
