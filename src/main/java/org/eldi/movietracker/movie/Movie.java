@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import org.eldi.movietracker.util.FormattedNumberDeserializer;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -17,12 +19,13 @@ public class Movie {
 
     private String title;
 
-    private int year;
+    private short year;
 
     private String rated;
 
-    @JsonFormat(pattern = "dd MMM yyyy")
-    private Date released;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd MMM yyyy")
+    private LocalDate released;
 
     private String runtime;
 
@@ -47,10 +50,10 @@ public class Movie {
     private List<Rating> ratings;
 
     @JsonProperty(value = "Metascore")
-    private int metaScore;
+    private byte metaScore;
 
     @JsonProperty(value = "imdbRating")
-    private double imdbRating;
+    private BigDecimal imdbRating;
 
     @JsonDeserialize(using = FormattedNumberDeserializer.class)
     @JsonProperty(value = "imdbVotes")
@@ -79,11 +82,11 @@ public class Movie {
         this.title = title;
     }
 
-    public int getYear() {
+    public short getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(short year) {
         this.year = year;
     }
 
@@ -95,11 +98,11 @@ public class Movie {
         this.rated = rated;
     }
 
-    public Date getReleased() {
+    public LocalDate getReleased() {
         return released;
     }
 
-    public void setReleased(Date released) {
+    public void setReleased(LocalDate released) {
         this.released = released;
     }
 
@@ -191,19 +194,19 @@ public class Movie {
         this.ratings = ratings;
     }
 
-    public int getMetaScore() {
+    public byte getMetaScore() {
         return metaScore;
     }
 
-    public void setMetaScore(int metaScore) {
+    public void setMetaScore(byte metaScore) {
         this.metaScore = metaScore;
     }
 
-    public double getImdbRating() {
+    public BigDecimal getImdbRating() {
         return imdbRating;
     }
 
-    public void setImdbRating(double imdbRating) {
+    public void setImdbRating(BigDecimal imdbRating) {
         this.imdbRating = imdbRating;
     }
 
