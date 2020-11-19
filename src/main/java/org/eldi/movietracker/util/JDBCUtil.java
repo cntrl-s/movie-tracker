@@ -20,7 +20,7 @@ public class JDBCUtil {
         public Connection getConnection() {
             if (connection == null) {
                 try {
-                    connection = DriverManager.getConnection(testUrl, user, password);
+                    connection = DriverManager.getConnection(url, user, password);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -33,7 +33,7 @@ public class JDBCUtil {
         try {
             Connection connection = Connector.INSTANCE.getConnection();
             Statement statement = connection.createStatement();
-            statement.execute(SQLUtil.CREATE_SQL_TABLE);
+            statement.execute(SQLUtil.CREATE_MOVIE_TABLE);
         } catch (SQLException e) {
             e.printStackTrace();
         }
