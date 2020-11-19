@@ -19,7 +19,7 @@ public class Movie {
 
     private String title;
 
-    private short year;
+    private String year;
 
     private String rated;
 
@@ -82,11 +82,11 @@ public class Movie {
         this.title = title;
     }
 
-    public short getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(short year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
