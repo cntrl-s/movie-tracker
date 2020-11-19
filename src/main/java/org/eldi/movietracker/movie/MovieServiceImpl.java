@@ -27,4 +27,16 @@ public class MovieServiceImpl implements MovieService {
         }
         return results;
     }
+
+    // TODO get selected result & fetch info using id & persist
+    public Movie getMovie(String url) {
+        Movie movie = new Movie();
+        try {
+            movie = JacksonUtil.OBJECT_MAPPER
+                    .readValue(new URL(url), Movie.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return movie;
+    }
 }
