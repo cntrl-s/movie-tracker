@@ -11,9 +11,7 @@ public class UserAPIKeyPersistUtil {
         return userAPIKeyValue;
     }
 
-    // TODO
-    static void askUserForKey() {
-    }
+    // TODO ask user for key
 
     public static boolean keyIsValid(String userAPIKeyValue) {
         final int validAPIKeyLength = 8;

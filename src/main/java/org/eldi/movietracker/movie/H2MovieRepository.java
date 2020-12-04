@@ -40,6 +40,7 @@ public class H2MovieRepository implements MovieRepository {
             ps.setString(18, movie.getImdbID());
             ps.setString(19, movie.getType().name());
             ps.setBoolean(20, movie.getResponse());
+
             int affectedRows = ps.executeUpdate();
             System.out.println("Rows affected : " + affectedRows);
         } catch (SQLException e) {
@@ -50,8 +51,10 @@ public class H2MovieRepository implements MovieRepository {
     public Optional<Movie> findByTitle(String title) {
         String query = SQLUtil.getFindByTitleQuery();
         Movie movie = new Movie();
+
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, title);
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 movie.setId(rs.getInt("movie_id"));
