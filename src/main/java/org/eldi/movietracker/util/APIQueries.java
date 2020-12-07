@@ -13,6 +13,7 @@ public class APIQueries {
         return BASE_URL + "?i=" + imdbID + getApiParameterWithKey();
     }
 
+    // todo delete?
     public static String getTitleSearchQuery(String title) {
         // format query
         String formattedSearchQuery = "";

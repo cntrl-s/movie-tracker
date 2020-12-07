@@ -49,6 +49,7 @@ public class Movie {
 
     private List<Rating> ratings;
 
+    // TODO handle N/A
     @JsonProperty(value = "Metascore")
     private byte metaScore;
 
@@ -62,6 +63,7 @@ public class Movie {
     @JsonProperty(value = "imdbID")
     private String imdbID;
 
+    // TODO handle unknown types
     private Type type;
 
     private boolean response;

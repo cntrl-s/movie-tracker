@@ -17,8 +17,7 @@ public class UserAPIKeyPersistUtil {
         final int validAPIKeyLength = 8;
 
         if (userAPIKeyValue.length() < validAPIKeyLength
-                || userAPIKeyValue.length() > validAPIKeyLength
-                || userAPIKeyValue.equals("default")) {
+                || userAPIKeyValue.length() > validAPIKeyLength) {
             return false;
         }
         return true;

@@ -38,6 +38,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     // TODO return Optional
+    /**
+     *
+     * @param url api url with imdb id of the movie to fetch.
+     * @return {@link Movie} associated with the specified imdb id.
+     */
     public Movie getMovie(String url) {
         Movie movie = new Movie();
         try {
