@@ -1,5 +1,5 @@
 package org.eldi.movietracker.movie;
 
 public enum Type {
-    MOVIE, SERIES, EPISODE;
+    MOVIE, SERIES, EPISODE, GAME;
 }
