@@ -6,7 +6,7 @@ public class SQLUtil {
     private static final String RATING_TABLE_NAME = "ratings";
 
     public static final String CREATE_MOVIE_TABLE = "CREATE TABLE IF NOT EXISTS " + MOVIE_TABLE_NAME + " ("
-            + " movie_id INT AUTO_INCREMENT PRIMARY KEY,"
+            + " id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
             + " title VARCHAR(512),"
             + " year VARCHAR(32),"
             + " rated VARCHAR(10),"
@@ -61,9 +61,17 @@ public class SQLUtil {
     }
 
     public static final String CREATE_RATING_TABLE = "CREATE TABLE IF NOT EXISTS " + RATING_TABLE_NAME + " ("
-            + " rating_id INT AUTO_INCREMENT PRIMARY KEY,"
+            + " id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
             + " source VARCHAR(32),"
-            + " value VARCHAR(32)"
-            + " FOREIGN KEY (movie_id) REFERENCES " + MOVIE_TABLE_NAME + "(movie_id)"
+            + " value VARCHAR(32),"
+            + " movie_id INT NOT NULL,"
+            + " FOREIGN KEY (movie_id) REFERENCES " + MOVIE_TABLE_NAME + "(id)"
             + ");";
+
+    public static final String INSERT_RATING_QUERY = "INSERT INTO " + RATING_TABLE_NAME + " ("
+            + " source,"
+            + " value,"
+            + " movie_id"
+            + ")"
+            + "VALUES (?, ?, ?);";
 }
