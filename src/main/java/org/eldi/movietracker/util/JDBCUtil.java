@@ -5,35 +5,35 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class JDBCUtil {
+public enum JDBCUtil {
+    ;
 
-    public enum Connector {
-        INSTANCE;
+    private static Connection connection;
 
-        private String url = "jdbc:h2:./.movietracker";
-        private String testUrl = "jdbc:h2:mem:";
-        private String user = "sa";
-        private String password = "";
+    private static String url = "jdbc:h2:./.movietracker";
+    private static String testUrl = "jdbc:h2:mem:";
+    private static String user = "sa";
+    private static String password = "";
 
-        private Connection connection;
-
-        public Connection getConnection() {
-            if (connection == null) {
-                try {
-                    connection = DriverManager.getConnection(url, user, password);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+    public static Connection getConnection() {
+        if (connection == null) {
+            try {
+                connection = DriverManager.getConnection(url, user, password);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            return connection;
         }
+        return connection;
     }
 
     public static void createTableIfNotExists() {
         try {
-            Connection connection = Connector.INSTANCE.getConnection();
-            Statement statement = connection.createStatement();
-            statement.execute(SQLUtil.CREATE_MOVIE_TABLE);
+            Connection connection = getConnection();
+            Statement createMoviesTableStatement = connection.createStatement();
+            Statement createRatingsTableStatement = connection.createStatement();
+
+            createMoviesTableStatement.execute(SQLUtil.CREATE_MOVIE_TABLE);
+            createRatingsTableStatement.execute(SQLUtil.CREATE_RATING_TABLE);
         } catch (SQLException e) {
             e.printStackTrace();
         }
