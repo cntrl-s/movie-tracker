@@ -1,89 +1,96 @@
 package org.eldi.movietracker.movie;
 
+import org.eldi.movietracker.exception.DAOException;
 import org.eldi.movietracker.util.SQLUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
 public class H2MovieRepository implements MovieRepository {
 
     private Connection connection;
+    private RatingsRepository ratingsRepository;
 
-    public H2MovieRepository (Connection connection) {
+    public H2MovieRepository(Connection connection, RatingsRepository ratingsRepository) {
         this.connection = connection;
+        this.ratingsRepository = ratingsRepository;
     }
 
-    // TODO insert_rating_query : fetch?
     public void save(Movie movie) {
-        try (PreparedStatement ps = connection.prepareStatement(SQLUtil.INSERT_MOVIE_QUERY)) {
-            ps.setString(1, movie.getTitle());
-            ps.setString(2, movie.getYear());
-            ps.setString(3, movie.getRated());
-            ps.setDate(4, java.sql.Date.valueOf(movie.getReleased()));
-            ps.setString(5, movie.getRuntime());
-            ps.setString(6, movie.getGenre());
-            ps.setString(7, movie.getDirector());
-            ps.setString(8, movie.getWriter());
-            ps.setString(9, movie.getActors());
-            ps.setString(10, movie.getPlot());
-            ps.setString(11, movie.getLanguage());
-            ps.setString(12, movie.getCountry());
-            ps.setString(13, movie.getAwards());
-            ps.setString(14, movie.getPoster());
-            ps.setByte(15, movie.getMetaScore());
-            ps.setBigDecimal(16, movie.getImdbRating());
-            ps.setLong(17, movie.getImdbVotes());
-            ps.setString(18, movie.getImdbID());
-            ps.setString(19, movie.getType().name());
-            ps.setBoolean(20, movie.getResponse());
+        String sql = SQLUtil.INSERT_MOVIE_QUERY;
 
-            int affectedRows = ps.executeUpdate();
-            System.out.println("Rows affected : " + affectedRows);
+        Object[] values = {
+                movie.getTitle(),
+                movie.getYear(),
+                movie.getRated(),
+                java.sql.Date.valueOf(movie.getReleased()),
+                movie.getRuntime(),
+                movie.getGenre(),
+                movie.getDirector(),
+                movie.getWriter(),
+                movie.getActors(),
+                movie.getPlot(),
+                movie.getLanguage(),
+                movie.getCountry(),
+                movie.getAwards(),
+                movie.getPoster(),
+                movie.getMetaScore(),
+                movie.getImdbRating(),
+                movie.getImdbVotes(),
+                movie.getImdbID(),
+                movie.getType().name(),
+                movie.getResponse()
+        };
+
+        try (PreparedStatement statement = setStatement(connection, sql, true, values)) {
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows < 1) {
+                throw new DAOException("Failed to save " + movie.getType() + movie.getTitle());
+            }
+
+            System.out.println("Rows affected - " + affectedRows + ", for " + movie.getType() + " '" + movie.getTitle() + "'");
+
+            ResultSet keys = statement.getGeneratedKeys();
+
+            if (keys.next()) {
+                movie.setId(keys.getInt(1));
+
+                System.out.println("Id for movie '" + movie.getTitle() + "' set as - " + movie.getId());
+            } else {
+                throw new DAOException("Failed to get generated keys for " + movie.getType() + " " + movie.getTitle());
+            }
+
+            ratingsRepository.save(movie.getRatings(), movie.getId());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Failed to save " + movie.getType() + " " + movie.getTitle(), e);
         }
     }
 
     public Optional<Movie> findByTitle(String title) {
-        String query = SQLUtil.getFindByTitleQuery();
-        Movie movie = new Movie();
+        String sql = SQLUtil.FIND_BY_TITLE_QUERY;
+        Movie movie = null;
 
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setString(1, title);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, title);
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                movie.setId(rs.getInt("movie_id"));
-                movie.setTitle(rs.getString("title"));
-                movie.setYear(rs.getString("year"));
-                movie.setRated(rs.getString("rated"));
-                movie.setReleased(rs.getDate("released").toLocalDate());
-                movie.setRuntime(rs.getString("runtime"));
-                movie.setGenre(rs.getString("genre"));
-                movie.setDirector(rs.getString("director"));
-                movie.setWriter(rs.getString("writer"));
-                movie.setActors(rs.getString("actors"));
-                movie.setPlot(rs.getString("plot"));
-                movie.setLanguage(rs.getString("language"));
-                movie.setCountry(rs.getString("country"));
-                movie.setAwards(rs.getString("awards"));
-                movie.setPoster(rs.getString("poster"));
-                movie.setMetaScore(rs.getByte("metascore"));
-                movie.setImdbRating(rs.getBigDecimal("imdb_rating"));
-                movie.setImdbVotes(rs.getLong("imdb_votes"));
-                movie.setImdbID(rs.getString("imdb_id"));
-                movie.setType(Type.valueOf(rs.getString("type")));
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                movie = mapResultSet(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException("Failed to find " + title, e);
         }
-        return Optional.of(movie);
+        return Optional.ofNullable(movie);
     }
 
+    // UPDATE statement
     public void update(String title) {
 
     }
@@ -92,7 +99,59 @@ public class H2MovieRepository implements MovieRepository {
         return null;
     }
 
-    public void delete(String title) {
+    public void delete(int id) {
+    }
 
+    // TODO move to new file
+    /**
+     * @param connection       {@link Connection} to create {@link PreparedStatement}.
+     * @param sql              SQL Query to execute.
+     * @param getGeneratedKeys constructs statement to return generated keys if {@code true}.
+     * @param values           values to be set on the {@link PreparedStatement}.
+     * @return {@link PreparedStatement} set with given parameters or empty {@link Optional} instance.
+     */
+    static PreparedStatement setStatement(Connection connection, String sql,
+                                          boolean getGeneratedKeys, Object[] values) {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(sql,
+                    getGeneratedKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
+
+            for (int i = 0; i < values.length; i++) {
+                statement.setObject(i + 1, values[i]);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return statement;
+    }
+
+    Movie mapResultSet(ResultSet rs) throws SQLException {
+        Movie movie = new Movie();
+
+        movie.setId(rs.getInt("id"));
+        movie.setTitle(rs.getString("title"));
+        movie.setYear(rs.getString("year"));
+        movie.setRated(rs.getString("rated"));
+        movie.setReleased(rs.getDate("released").toLocalDate());
+        movie.setRuntime(rs.getString("runtime"));
+        movie.setGenre(rs.getString("genre"));
+        movie.setDirector(rs.getString("director"));
+        movie.setWriter(rs.getString("writer"));
+        movie.setActors(rs.getString("actors"));
+        movie.setPlot(rs.getString("plot"));
+        movie.setLanguage(rs.getString("language"));
+        movie.setCountry(rs.getString("country"));
+        movie.setAwards(rs.getString("awards"));
+        movie.setPoster(rs.getString("poster"));
+        movie.setRatings(ratingsRepository.find(movie.getId()));
+        movie.setMetaScore(rs.getByte("metascore"));
+        movie.setImdbRating(rs.getBigDecimal("imdb_rating"));
+        movie.setImdbVotes(rs.getLong("imdb_votes"));
+        movie.setImdbID(rs.getString("imdb_id"));
+        movie.setType(Type.valueOf(rs.getString("type")));
+
+        return movie;
     }
 }
