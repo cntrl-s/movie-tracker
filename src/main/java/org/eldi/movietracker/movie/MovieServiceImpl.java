@@ -17,11 +17,6 @@ public class MovieServiceImpl implements MovieService {
         this.objectMapper = objectMapper;
     }
 
-    /**
-     *
-     * @param apiQueryUrl formatted url including api key.
-     * @return Search results as {@link SearchResult}.
-     */
     public List<SearchResult> search(String apiQueryUrl) {
         List<SearchResult> results = new ArrayList<>();
         try {
@@ -37,12 +32,6 @@ public class MovieServiceImpl implements MovieService {
         return results;
     }
 
-    // TODO return Optional
-    /**
-     *
-     * @param url api url with imdb id of the movie to fetch.
-     * @return {@link Movie} associated with the specified imdb id.
-     */
     public Movie getMovie(String url) {
         Movie movie = new Movie();
         try {
