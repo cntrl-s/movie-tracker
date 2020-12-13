@@ -3,7 +3,7 @@ package org.eldi.movietracker.model;
 import java.util.StringJoiner;
 
 public class Rating {
-    private int id;
+    private Integer id;
 
     private String source;
 
@@ -13,7 +13,7 @@ public class Rating {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -15,7 +15,7 @@ import java.util.StringJoiner;
 @JsonIgnoreProperties(ignoreUnknown = true)
 // TODO BaseMedia Type ?
 public class Movie {
-    private int id;
+    private Integer id;
 
     private String title;
 
@@ -51,14 +51,14 @@ public class Movie {
 
     // TODO handle N/A
     @JsonProperty(value = "Metascore")
-    private byte metaScore;
+    private Byte metaScore;
 
     @JsonProperty(value = "imdbRating")
     private BigDecimal imdbRating;
 
     @JsonDeserialize(using = FormattedNumberDeserializer.class)
     @JsonProperty(value = "imdbVotes")
-    private long imdbVotes;
+    private Long imdbVotes;
 
     @JsonProperty(value = "imdbID")
     private String imdbID;
@@ -70,7 +70,7 @@ public class Movie {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -198,7 +198,7 @@ public class Movie {
         return metaScore;
     }
 
-    public void setMetaScore(byte metaScore) {
+    public void setMetaScore(Byte metaScore) {
         this.metaScore = metaScore;
     }
 
@@ -214,7 +214,7 @@ public class Movie {
         return imdbVotes;
     }
 
-    public void setImdbVotes(long imdbVotes) {
+    public void setImdbVotes(Long imdbVotes) {
         this.imdbVotes = imdbVotes;
     }
 
