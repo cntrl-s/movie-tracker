@@ -21,13 +21,11 @@ public class SQLUtil {
             + " country VARCHAR(100),"
             + " awards VARCHAR(200),"
             + " poster VARCHAR(256),"
-            // TODO handle n/a
             + " metascore TINYINT,"
             + " imdb_rating DECIMAL,"
             + " imdb_votes BIGINT,"
             + " imdb_id VARCHAR(12),"
-            + " type VARCHAR(32),"
-            + " response VARCHAR(20)"
+            + " type VARCHAR(32)"
             + ");";
 
     public static final String INSERT_MOVIE_QUERY = "INSERT INTO " + MOVIE_TABLE_NAME + " (" +
@@ -49,16 +47,17 @@ public class SQLUtil {
             "imdb_rating," +
             "imdb_votes," +
             "imdb_id," +
-            "type," +
-            "response" +
-            ") " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            "type" +
+            ")" +
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-    public static final String FIND_MOVIES_QUERY = String.format("SELECT * FROM %s;", MOVIE_TABLE_NAME);
+    public static final String FIND_MOVIES_QUERY = "SELECT * FROM " + MOVIE_TABLE_NAME;
 
-    public static String getFindByTitleQuery() {
-        return String.format("SELECT * FROM %s WHERE title = ?", MOVIE_TABLE_NAME);
-    }
+    public static String FIND_BY_TITLE_QUERY  = "SELECT * FROM " + MOVIE_TABLE_NAME
+        + " WHERE title = ?";
+
+    public static String DELETE_MOVIE_QUERY = "DELETE FROM " + MOVIE_TABLE_NAME
+            + " WHERE id = ?";
 
     public static final String CREATE_RATING_TABLE = "CREATE TABLE IF NOT EXISTS " + RATING_TABLE_NAME + " ("
             + " id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
@@ -73,5 +72,11 @@ public class SQLUtil {
             + " value,"
             + " movie_id"
             + ")"
-            + "VALUES (?, ?, ?);";
+            + " VALUES (?, ?, ?);";
+
+    public static final String FIND_RATING_QUERY = "SELECT * FROM " + RATING_TABLE_NAME
+            + " WHERE movie_id = ?";
+
+    public static final String DELETE_RATING_QUERY = "DELETE FROM " + RATING_TABLE_NAME
+            + " WHERE movie_id = ?";
 }

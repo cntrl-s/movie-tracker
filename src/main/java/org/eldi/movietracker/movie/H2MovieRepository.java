@@ -44,7 +44,6 @@ public class H2MovieRepository implements MovieRepository {
                 movie.getImdbVotes(),
                 movie.getImdbID(),
                 movie.getType().name(),
-                movie.getResponse()
         };
 
         try (PreparedStatement statement = setStatement(connection, sql, true, values)) {

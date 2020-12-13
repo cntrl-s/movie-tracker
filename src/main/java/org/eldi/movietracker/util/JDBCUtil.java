@@ -26,6 +26,17 @@ public enum JDBCUtil {
         return connection;
     }
 
+    public static Connection getTestConnection() {
+        if (connection == null) {
+            try {
+                connection = DriverManager.getConnection(testUrl, user, password);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return connection;
+    }
+
     public static void createTableIfNotExists() {
         try {
             Connection connection = getConnection();

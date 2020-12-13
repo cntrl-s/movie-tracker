@@ -10,13 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/*")
 public class MovieController extends HttpServlet {
     // init() ?
-    private MovieServiceImpl movieService = new MovieServiceImpl(JacksonUtil.OBJECT_MAPPER);
-    private MovieRepository movieRepository = new H2MovieRepository(JDBCUtil.Connector.INSTANCE.getConnection());
+    private Connection connection = JDBCUtil.getConnection();
+    private MovieService movieService = new MovieServiceImpl(JacksonUtil.OBJECT_MAPPER);
+    private MovieRepository movieRepository = new H2MovieRepository(connection, new H2RatingsRepository(connection));
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
@@ -33,7 +35,7 @@ public class MovieController extends HttpServlet {
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         if (request.getRequestURI().equalsIgnoreCase("/save")) {
             String imdbID = request.getParameter("imdb-id");
 
@@ -41,11 +43,10 @@ public class MovieController extends HttpServlet {
             if (imdbID != null) {
                 String url = APIQueries.getImdbSearchQuery(imdbID);
                 Movie movie = movieService.getMovie(url);
-                // TODO ratings persist
-                List<Rating> ratings = movie.getRatings();
 
                 movieRepository.save(movie);
             } else {
+                // TODO write to view
                 System.out.println("Invalid imdb id");
             }
         }

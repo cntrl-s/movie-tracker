@@ -21,7 +21,7 @@ public class APIQueries {
     }
 
     private static String getApiParameterWithKey() {
-        return API_PARAMETER + UserAPIKeyPersistUtil.getUserAPIKey();
+        return API_PARAMETER + UserPreferences.getAPIKey();
     }
 
     private static String formatQuery(String query) {
