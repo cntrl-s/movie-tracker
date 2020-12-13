@@ -101,6 +101,22 @@ public class H2MovieRepository implements MovieRepository {
     }
 
     public void delete(int id) {
+        String sql = SQLUtil.DELETE_MOVIE_QUERY;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+
+            ratingsRepository.delete(id);
+
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows < 1) {
+                throw new DAOException("Failed to delete movie id " + id);
+            }
+
+            System.out.println("Deleted movie id - " + id);
+        } catch (SQLException e) {
+            throw new DAOException("Failed to delete movie id " + id, e);
+        }
     }
 
     // TODO move to new file

@@ -78,6 +78,7 @@ public class H2RatingsRepository implements RatingsRepository {
                 throw new DAOException("Failed to delete ratings for movie id " + movieId);
             }
 
+            System.out.println("Rows affected - " + affectedRows + ", deleted ratings for movie id - " + movieId);
         } catch (SQLException e) {
             throw new DAOException("Failed to delete ratings for movie id " + movieId, e);
         }
