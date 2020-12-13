@@ -66,8 +66,6 @@ public class Movie {
     // TODO handle unknown types
     private Type type;
 
-    private boolean response;
-
     public int getId() {
         return id;
     }
@@ -236,14 +234,6 @@ public class Movie {
         this.type = type;
     }
 
-    public boolean getResponse() {
-        return response;
-    }
-
-    public void setResponse(boolean response) {
-        this.response = response;
-    }
-
     public String toString() {
         return new StringJoiner(", ", Movie.class.getSimpleName() + "[", "]")
                 .add("id=" + id)
@@ -267,7 +257,6 @@ public class Movie {
                 .add("imdbVotes=" + imdbVotes)
                 .add("imdbID='" + imdbID + "'")
                 .add("type=" + type)
-                .add("response=" + response)
                 .toString();
     }
 }
