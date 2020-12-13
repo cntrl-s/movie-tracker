@@ -1,4 +1,6 @@
-package org.eldi.movietracker.movie;
+package org.eldi.movietracker.repository;
+
+import org.eldi.movietracker.model.Rating;
 
 import java.util.List;
 

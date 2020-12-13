@@ -1,4 +1,7 @@
-package org.eldi.movietracker.movie;
+package org.eldi.movietracker.service;
+
+import org.eldi.movietracker.model.Movie;
+import org.eldi.movietracker.model.SearchResult;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.eldi.movietracker.movie;
+package org.eldi.movietracker.web;
 
 import org.apache.catalina.servlets.DefaultServlet;
 

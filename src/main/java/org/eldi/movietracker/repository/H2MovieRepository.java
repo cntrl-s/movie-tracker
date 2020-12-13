@@ -1,6 +1,8 @@
-package org.eldi.movietracker.movie;
+package org.eldi.movietracker.repository;
 
 import org.eldi.movietracker.exception.DAOException;
+import org.eldi.movietracker.model.Movie;
+import org.eldi.movietracker.model.Type;
 import org.eldi.movietracker.util.SQLUtil;
 
 import java.sql.Connection;

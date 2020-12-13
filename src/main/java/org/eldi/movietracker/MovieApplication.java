@@ -4,9 +4,9 @@ import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Wrapper;
 import org.apache.catalina.startup.Tomcat;
-import org.eldi.movietracker.movie.MovieController;
-import org.eldi.movietracker.movie.StaticServlet;
-import org.eldi.movietracker.movie.ThymeleafTemplateProcessor;
+import org.eldi.movietracker.web.MovieController;
+import org.eldi.movietracker.web.StaticServlet;
+import org.eldi.movietracker.web.ThymeleafTemplateProcessor;
 
 import java.io.File;
 

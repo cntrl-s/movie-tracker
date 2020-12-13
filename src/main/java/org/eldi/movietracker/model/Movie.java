@@ -1,4 +1,4 @@
-package org.eldi.movietracker.movie;
+package org.eldi.movietracker.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

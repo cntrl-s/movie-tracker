@@ -1,4 +1,6 @@
-package org.eldi.movietracker.movie;
+package org.eldi.movietracker.repository;
+
+import org.eldi.movietracker.model.Movie;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,5 +1,12 @@
-package org.eldi.movietracker.movie;
+package org.eldi.movietracker.web;
 
+import org.eldi.movietracker.service.MovieService;
+import org.eldi.movietracker.service.MovieServiceImpl;
+import org.eldi.movietracker.model.Movie;
+import org.eldi.movietracker.model.SearchResult;
+import org.eldi.movietracker.repository.H2MovieRepository;
+import org.eldi.movietracker.repository.H2RatingsRepository;
+import org.eldi.movietracker.repository.MovieRepository;
 import org.eldi.movietracker.util.APIQueries;
 import org.eldi.movietracker.util.JDBCUtil;
 import org.eldi.movietracker.util.JacksonUtil;

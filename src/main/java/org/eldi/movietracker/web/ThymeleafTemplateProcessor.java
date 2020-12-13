@@ -1,5 +1,6 @@
-package org.eldi.movietracker.movie;
+package org.eldi.movietracker.web;
 
+import org.eldi.movietracker.model.SearchResult;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;

@@ -1,8 +1,10 @@
-package org.eldi.movietracker.movie;
+package org.eldi.movietracker.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.eldi.movietracker.model.Movie;
+import org.eldi.movietracker.model.SearchResult;
 
 import java.io.IOException;
 import java.net.URL;

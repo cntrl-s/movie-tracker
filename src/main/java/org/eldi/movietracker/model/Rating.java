@@ -1,4 +1,4 @@
-package org.eldi.movietracker.movie;
+package org.eldi.movietracker.model;
 
 import java.util.StringJoiner;
 
