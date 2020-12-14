@@ -51,10 +51,13 @@ public class SQLUtil {
             ")" +
             " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-    public static final String FIND_MOVIES_QUERY = "SELECT * FROM " + MOVIE_TABLE_NAME;
+    public static String FIND_BY_ID_QUERY = "SELECT * FROM " + MOVIE_TABLE_NAME
+            + " WHERE id = ?";
 
     public static String FIND_BY_TITLE_QUERY  = "SELECT * FROM " + MOVIE_TABLE_NAME
         + " WHERE title = ?";
+
+    public static final String FIND_MOVIES_QUERY = "SELECT * FROM " + MOVIE_TABLE_NAME;
 
     public static String DELETE_MOVIE_QUERY = "DELETE FROM " + MOVIE_TABLE_NAME
             + " WHERE id = ?";

@@ -75,6 +75,27 @@ public class H2MovieRepository implements MovieRepository {
         }
     }
 
+    public Optional<Movie> find(int id) {
+        Movie movie = null;
+
+        String sql = SQLUtil.FIND_BY_ID_QUERY;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                movie = mapResultSet(resultSet);
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException("Failed to fetch movie with id " + id, e);
+        }
+
+        return Optional.ofNullable(movie);
+    }
+
     public Optional<Movie> findByTitle(String title) {
         String sql = SQLUtil.FIND_BY_TITLE_QUERY;
         Movie movie = null;
