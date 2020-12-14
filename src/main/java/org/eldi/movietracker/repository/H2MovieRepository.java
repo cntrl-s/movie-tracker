@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,7 +98,21 @@ public class H2MovieRepository implements MovieRepository {
     }
 
     public List<Movie> findAll() {
-        return null;
+        List<Movie> movies = new ArrayList<>();
+        String sql = SQLUtil.FIND_MOVIES_QUERY;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Movie movie = mapResultSet(resultSet);
+                movies.add(movie);
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Failed to fetch all movies.", e);
+        }
+
+        return movies;
     }
 
     public void delete(int id) {
