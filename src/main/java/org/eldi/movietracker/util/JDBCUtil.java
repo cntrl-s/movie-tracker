@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public enum JDBCUtil {
-    ;
+    INSTANCE;
 
     private static Connection connection;
 
@@ -15,7 +15,7 @@ public enum JDBCUtil {
     private static String user = "sa";
     private static String password = "";
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         if (connection == null) {
             try {
                 connection = DriverManager.getConnection(url, user, password);
@@ -26,7 +26,7 @@ public enum JDBCUtil {
         return connection;
     }
 
-    public static Connection getTestConnection() {
+    public Connection getTestConnection() {
         if (connection == null) {
             try {
                 connection = DriverManager.getConnection(testUrl, user, password);
@@ -37,7 +37,7 @@ public enum JDBCUtil {
         return connection;
     }
 
-    public static void createTableIfNotExists() {
+    public void createTableIfNotExists() {
         try {
             Connection connection = getConnection();
             Statement createMoviesTableStatement = connection.createStatement();

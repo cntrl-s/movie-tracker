@@ -1,21 +1,28 @@
 package org.eldi.movietracker.util;
 
+import org.eldi.movietracker.exception.InvalidAPIKeyException;
+
 import java.util.prefs.Preferences;
 
 public class UserPreferences {
     private static final String API_KEY = "api_key";
     private static Preferences preferences = Preferences.userNodeForPackage(Preferences.class);
 
-    static String getAPIKey() {
+    String getAPIKey() {
         String userAPIKeyValue = preferences.get(API_KEY, "default");
         return userAPIKeyValue;
     }
 
-    static void setAPIKey(String apiKey) {
-        preferences.put(API_KEY, apiKey);
+    // TODO test
+    void setAPIKey(String apiKey) throws InvalidAPIKeyException {
+        if (keyIsValid(apiKey)) {
+            preferences.put(API_KEY, apiKey);
+        } else {
+            throw new InvalidAPIKeyException("API Key is not valid.");
+        }
     }
 
-    public static boolean keyIsValid(String apiKey) {
+    private boolean keyIsValid(String apiKey) {
         final int validAPIKeyLength = 8;
 
         if (apiKey.length() < validAPIKeyLength
