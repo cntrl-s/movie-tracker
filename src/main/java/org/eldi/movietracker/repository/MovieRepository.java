@@ -9,6 +9,8 @@ public interface MovieRepository {
 
     void save(Movie movie);
 
+    Optional<Movie> find(int id);
+
     /*
      * @param title name of the movie to search.
      * @return {@link Movie} or {@code null }if not found
