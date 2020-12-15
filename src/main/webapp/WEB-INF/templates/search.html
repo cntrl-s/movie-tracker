@@ -1,36 +1,44 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Movie Tracker</title>
-    </head>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/static/css/style.css}" rel="stylesheet">
+    <title>Movie Tracker</title>
+</head>
 
-    <body>
-    <h2>Type your query and hit enter</h2>
+<body>
+<div class="wrap">
+    <header>
+        <a th:href="@{/movies}">View all your movies </a>
+    </header>
 
-    <form action="/search">
-        <input type="text" placeholder="Search.." name="query">
-        <input type="submit">
-    </form>
+    <h2 align="center">Type your query and hit enter</h2>
+</div>
 
-    <h2>Click on a result to save it</h2>
+<form action="/search">
+    <input type="text" placeholder="Search.." name="query">
+    <input type="submit">
+</form>
 
-    <table id="result-table" align="center" border="1" style="cursor: pointer";>
-        <tr>
-            <th>Poster</th>
-            <th>Title</th>
-            <th>Year</th>
-            <th>Imdb Id</th>
-            <th>Type</th>
-        </tr>
-        <tr th:each="result : ${results}">
-            <td> <img th:src="${result.posterUrl}" border="1" alt="Poster" width="100" height="148" ></td>
-            <td th:text="${result.title}"></td>
-            <td th:text="${result.year}"></td>
-            <td th:text="${result.imdbID}"></td>
-            <td th:text="${result.type}"></td>
-        </tr>
-    </table>
+<h2>Click on a result to save it</h2>
 
-    <script th:src="@{/static/js/results.js}"></script>
-    </body>
+<table id="result-table" align="center" border="1" style="cursor: pointer" ;>
+    <tr>
+        <th>Poster</th>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Imdb Id</th>
+        <th>Type</th>
+    </tr>
+    <tr th:each="result : ${results}">
+        <td><img th:src="${result.posterUrl}" border="1" alt="Poster" width="100" height="148"></td>
+        <td th:text="${result.title}"></td>
+        <td th:text="${result.year}"></td>
+        <td th:text="${result.imdbID}"></td>
+        <td th:text="${result.type}"></td>
+    </tr>
+</table>
+
+<script th:src="@{/static/js/results.js}"></script>
+</body>
 </html>

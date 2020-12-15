@@ -24,7 +24,7 @@ public class SQLUtil {
             + " metascore TINYINT,"
             + " imdb_rating DECIMAL,"
             + " imdb_votes BIGINT,"
-            + " imdb_id VARCHAR(12),"
+            + " imdb_id VARCHAR(12) UNIQUE,"
             + " type VARCHAR(32)"
             + ");";
 

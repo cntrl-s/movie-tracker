@@ -42,6 +42,10 @@ public class MovieController extends HttpServlet {
 
             request.setAttribute("results", results);
             request.getRequestDispatcher("search.html").forward(request, response);
+        } else if (requestURI.equalsIgnoreCase("/movies")) {
+            List<Movie> movies = movieRepository.findAll();
+            request.setAttribute("movies", movies);
+            request.getRequestDispatcher("movies.html").forward(request, response);
         }
     }
 

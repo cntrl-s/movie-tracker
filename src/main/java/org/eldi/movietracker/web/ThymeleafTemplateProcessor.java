@@ -39,6 +39,8 @@ public class ThymeleafTemplateProcessor extends HttpServlet {
             templateEngine.process("home", context, response.getWriter());
         } else if (requestURI.equalsIgnoreCase("/search.html")) {
             templateEngine.process("search", context, response.getWriter());
+        } else if (requestURI.equalsIgnoreCase("/movies.html")) {
+            templateEngine.process("movies", context, response.getWriter());
         }
     }
 

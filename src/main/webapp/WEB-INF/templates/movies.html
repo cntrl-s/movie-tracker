@@ -1,0 +1,36 @@
+<!doctype html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/static/css/style.css}" rel="stylesheet">
+    <title>Movie Tracker</title>
+</head>
+
+<body>
+<div class="wrap">
+    <header>
+        <a th:href="@{/}">Go back</a>
+    </header>
+
+    <h2 align="center">Type your query and hit enter</h2>
+</div>
+<table id="movies-table" align="center" border="1" style="cursor:pointer" ;>
+    <tr>
+        <th>Poster</th>
+        <th>id</th>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Type</th>
+        <th>Imdb Rating</th>
+    </tr>
+    <tr th:each="movie : ${movies}">
+        <td><img th:src="${movie.poster}" border="1" alt="Poster" width="100" height="148"></td>
+        <td th:text="${movie.id}"></td>
+        <td th:text="${movie.title}"></td>
+        <td th:text="${movie.year}"></td>
+        <td th:text="${movie.type}"></td>
+        <td th:text="${movie.imdbRating}"></td>
+    </tr>
+</table>
+</body>
+</html>

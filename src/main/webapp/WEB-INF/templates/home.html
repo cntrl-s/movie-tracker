@@ -1,16 +1,24 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Movie Tracker</title>
-    </head>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/static/css/style.css}" rel="stylesheet">
+    <title>Movie Tracker</title>
+</head>
 
-    <body>
-    <h2>Type your query and hit enter</h2>
+<body>
+<div class="wrap">
+    <header>
+        <a th:href="@{/movies}">View all your movies </a>
+    </header>
 
-    <form action="/search">
-        <input type="text" placeholder="Search.." name="query">
-        <input type="submit">
-    </form>
+    <h2 align="center">Type your query and hit enter</h2>
+</div>
 
-    </body>
+<form action="/search">
+    <input type="text" placeholder="Search.." name="query">
+    <input type="submit">
+</form>
+
+</body>
 </html>
