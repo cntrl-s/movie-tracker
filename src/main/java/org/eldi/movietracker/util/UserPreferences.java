@@ -18,7 +18,7 @@ public class UserPreferences {
         if (keyIsValid(apiKey)) {
             preferences.put(API_KEY, apiKey);
         } else {
-            throw new InvalidAPIKeyException("API Key is not valid.");
+            throw new InvalidAPIKeyException("API Key is not valid");
         }
     }
 

@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.StringJoiner;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-// TODO BaseMedia Type ?
 public class Movie {
     private Integer id;
 

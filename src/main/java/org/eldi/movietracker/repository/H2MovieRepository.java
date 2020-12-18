@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class H2MovieRepository implements MovieRepository {
@@ -21,7 +22,9 @@ public class H2MovieRepository implements MovieRepository {
 
     public H2MovieRepository(Connection connection, RatingsRepository ratingsRepository) {
         this.connection = connection;
-        this.ratingsRepository = ratingsRepository;
+
+        this.ratingsRepository = Objects.requireNonNull(ratingsRepository,
+                "RatingsRepository must not be null");
     }
 
     public void save(Movie movie) {
