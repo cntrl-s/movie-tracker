@@ -21,7 +21,7 @@ public class SQLUtil {
             + " country VARCHAR(100),"
             + " awards VARCHAR(200),"
             + " poster VARCHAR(256),"
-            + " metascore TINYINT,"
+            + " metascore VARCHAR(3),"
             + " imdb_rating DECIMAL,"
             + " imdb_votes BIGINT,"
             + " imdb_id VARCHAR(12) UNIQUE,"

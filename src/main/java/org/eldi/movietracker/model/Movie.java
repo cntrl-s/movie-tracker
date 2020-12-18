@@ -48,9 +48,8 @@ public class Movie {
 
     private List<Rating> ratings;
 
-    // TODO handle N/A
     @JsonProperty(value = "Metascore")
-    private Byte metaScore;
+    private String metaScore;
 
     @JsonProperty(value = "imdbRating")
     private BigDecimal imdbRating;
@@ -193,11 +192,11 @@ public class Movie {
         this.ratings = ratings;
     }
 
-    public byte getMetaScore() {
+    public String getMetaScore() {
         return metaScore;
     }
 
-    public void setMetaScore(Byte metaScore) {
+    public void setMetaScore(String metaScore) {
         this.metaScore = metaScore;
     }
 

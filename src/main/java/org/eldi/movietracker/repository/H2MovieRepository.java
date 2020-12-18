@@ -202,7 +202,7 @@ public class H2MovieRepository implements MovieRepository {
         movie.setAwards(rs.getString("awards"));
         movie.setPoster(rs.getString("poster"));
         movie.setRatings(ratingsRepository.find(movie.getId()));
-        movie.setMetaScore(rs.getByte("metascore"));
+        movie.setMetaScore(rs.getString("metascore"));
         movie.setImdbRating(rs.getBigDecimal("imdb_rating"));
         movie.setImdbVotes(rs.getLong("imdb_votes"));
         movie.setImdbID(rs.getString("imdb_id"));

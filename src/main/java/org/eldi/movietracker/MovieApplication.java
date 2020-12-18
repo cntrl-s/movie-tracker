@@ -4,6 +4,7 @@ import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Wrapper;
 import org.apache.catalina.startup.Tomcat;
+import org.eldi.movietracker.util.JDBCUtil;
 import org.eldi.movietracker.web.MovieController;
 import org.eldi.movietracker.web.StaticServlet;
 import org.eldi.movietracker.web.ThymeleafTemplateProcessor;
@@ -12,6 +13,8 @@ import java.io.File;
 
 public class MovieApplication {
     public static void main(String[] args) throws LifecycleException {
+        JDBCUtil.INSTANCE.createTableIfNotExists();
+
         Tomcat tomcat = new Tomcat();
         tomcat.setPort(8080);
         tomcat.getConnector();
