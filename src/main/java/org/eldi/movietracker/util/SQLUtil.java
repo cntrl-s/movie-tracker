@@ -17,7 +17,7 @@ public class SQLUtil {
             + " writer VARCHAR(512),"
             + " actors VARCHAR(200),"
             + " plot VARCHAR(512),"
-            + " language VARCHAR(50),"
+            + " language VARCHAR(150),"
             + " country VARCHAR(100),"
             + " awards VARCHAR(200),"
             + " poster VARCHAR(256),"
