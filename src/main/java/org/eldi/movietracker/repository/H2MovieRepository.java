@@ -99,21 +99,22 @@ public class H2MovieRepository implements MovieRepository {
         return Optional.ofNullable(movie);
     }
 
-    public Optional<Movie> findByTitle(String title) {
+    public List<Movie> findByTitle(String title) {
         String sql = SQLUtil.FIND_BY_TITLE_QUERY;
-        Movie movie = null;
+        List<Movie> movies = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, title);
+            statement.setString(1, "%" + title + "%");
 
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                movie = mapResultSet(resultSet);
+            while (resultSet.next()) {
+                Movie movie = mapResultSet(resultSet);
+                movies.add(movie);
             }
         } catch (SQLException e) {
             throw new DAOException("Failed to find " + title, e);
         }
-        return Optional.ofNullable(movie);
+        return movies;
     }
 
     // TODO UPDATE statement

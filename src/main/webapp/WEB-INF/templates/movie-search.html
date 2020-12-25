@@ -2,14 +2,13 @@
 <html xmlns:th="https://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <link th:href="@{/static/css/style.css}" rel="stylesheet">
-    <title>Movie Tracker</title>
+    <title>Movie Search</title>
 </head>
 
 <body>
 <div class="wrap">
     <header>
-        <a th:href="@{/}">Go back</a>
+        <a th:ref="@{/}">Go back</a>
     </header>
 
     <h2 align="center">Type your query and hit enter</h2>
@@ -20,7 +19,7 @@
     <input type="submit">
 </form>
 
-<table id="movies-table" align="center" border="1" style="cursor:pointer" ;>
+<table id="movie-search-table" align="center" border="1" style="cursor:pointer" ;>
     <tr>
         <th>Poster</th>
         <th>id</th>
@@ -29,7 +28,7 @@
         <th>Type</th>
         <th>Imdb Rating</th>
     </tr>
-    <tr th:each="movie : ${movies}">
+    <tr th:each="movie : ${movieResults}">
         <td><img th:src="${movie.poster}" border="1" alt="Poster" width="100" height="148"></td>
         <td th:text="${movie.id}"></td>
         <td th:text="${movie.title}"></td>
@@ -38,18 +37,6 @@
         <td th:text="${movie.imdbRating}"></td>
     </tr>
 </table>
-
-<div th:if="${totalPages > 0}" class="pagination">
-    <a th:if="${currentPage > 1}"
-       th:href="@{/movies(current-page=${currentPage - 1})}">&laquo;</a>
-
-    <a th:each="i : ${#numbers.sequence(1, totalPages)}"
-       th:href="@{/movies(current-page=${i})}"
-       th:text=${i}></a>
-
-    <a th:if="${currentPage < totalPages}"
-       th:href="@{/movies(current-page=${currentPage + 1})}">&raquo;</a>
-</div>
 
 </body>
 </html>

@@ -13,9 +13,9 @@ public interface MovieRepository {
 
     /**
      * @param title name of the movie to search.
-     * @return {@link Movie} or {@code null }if not found
+     * @return {@link List} of {@link Movie} that match the title
      */
-    Optional<Movie> findByTitle(String title);
+    List<Movie> findByTitle(String title);
 
     void update(String title);
 

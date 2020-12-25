@@ -55,7 +55,7 @@ public class SQLUtil {
             + " WHERE id = ?";
 
     public static String FIND_BY_TITLE_QUERY  = "SELECT * FROM " + MOVIE_TABLE_NAME
-            + " WHERE title = ?";
+            + " WHERE UPPER(title) LIKE UPPER(?)";
 
     public static final String FIND_MOVIES_QUERY = "SELECT * FROM " + MOVIE_TABLE_NAME
             + " LIMIT %d OFFSET %d";

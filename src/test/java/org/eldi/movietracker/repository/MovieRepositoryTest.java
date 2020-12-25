@@ -4,7 +4,6 @@ import org.eldi.movietracker.exception.DAOException;
 import org.eldi.movietracker.model.Movie;
 import org.eldi.movietracker.util.JDBCUtil;
 import org.eldi.movietracker.util.JacksonUtil;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,9 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public class MovieRepositoryTest {
     private Movie movie;
@@ -64,17 +61,12 @@ public class MovieRepositoryTest {
         assertEquals(expected.getType(), actual.getType());
         assertEquals(expected.getImdbID(), actual.getImdbID());
 
-        String title = movie.getTitle();
-        Optional<Movie> findByTitle = repository.findByTitle(title);
-        assertEquals(expected.getTitle(), findByTitle.get().getTitle());
+        String title = movie.getTitle().substring(2, 5);
+        List<Movie> findByTitle = repository.findByTitle(title);
+        assertTrue(findByTitle.get(0).getTitle().contains(title));
 
         repository.delete(actual.getId());
         movies = repository.findAllByPage(1,1);
-        assertEquals(0, movies.size());
-    }
-
-    @AfterEach
-    public void cleanUp() throws SQLException {
-        connection.close();
+        assertEquals(0, movies.size(), "Size should be 0 after deleting");
     }
 }
