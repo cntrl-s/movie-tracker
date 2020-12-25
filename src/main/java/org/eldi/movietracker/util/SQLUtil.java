@@ -55,12 +55,15 @@ public class SQLUtil {
             + " WHERE id = ?";
 
     public static String FIND_BY_TITLE_QUERY  = "SELECT * FROM " + MOVIE_TABLE_NAME
-        + " WHERE title = ?";
+            + " WHERE title = ?";
 
-    public static final String FIND_MOVIES_QUERY = "SELECT * FROM " + MOVIE_TABLE_NAME;
+    public static final String FIND_MOVIES_QUERY = "SELECT * FROM " + MOVIE_TABLE_NAME
+            + " LIMIT %d OFFSET %d";
 
     public static String DELETE_MOVIE_QUERY = "DELETE FROM " + MOVIE_TABLE_NAME
             + " WHERE id = ?";
+
+    public static String GET_ROW_COUNT = "SELECT COUNT(*) FROM " + MOVIE_TABLE_NAME;
 
     public static final String CREATE_RATING_TABLE = "CREATE TABLE IF NOT EXISTS " + RATING_TABLE_NAME + " ("
             + " id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"

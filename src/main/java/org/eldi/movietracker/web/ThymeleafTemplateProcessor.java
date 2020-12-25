@@ -1,6 +1,5 @@
 package org.eldi.movietracker.web;
 
-import org.eldi.movietracker.model.SearchResult;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(urlPatterns = "*.html")
 public class ThymeleafTemplateProcessor extends HttpServlet {
@@ -31,18 +29,14 @@ public class ThymeleafTemplateProcessor extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String requestURI = request.getRequestURI();
 
-        WebContext context = new WebContext(request, response, request.getServletContext());
-        List<SearchResult> results = (List<SearchResult>) request.getAttribute("results");
-        context.setVariable("results", results);
+        WebContext thContext = new WebContext(request, response, request.getServletContext());
 
         if (requestURI.equalsIgnoreCase("/home.html")) {
-            templateEngine.process("home", context, response.getWriter());
+            templateEngine.process("home", thContext, response.getWriter());
         } else if (requestURI.equalsIgnoreCase("/search.html")) {
-            templateEngine.process("search", context, response.getWriter());
+            templateEngine.process("search", thContext, response.getWriter());
         } else if (requestURI.equalsIgnoreCase("/movies.html")) {
-            templateEngine.process("movies", context, response.getWriter());
+            templateEngine.process("movies", thContext, response.getWriter());
         }
     }
-
-    // process(Object obj, req, resp) ?
 }

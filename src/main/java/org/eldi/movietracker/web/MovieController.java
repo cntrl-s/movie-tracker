@@ -23,12 +23,20 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/*")
 public class MovieController extends HttpServlet {
-    // init() ?
-    private Connection connection = JDBCUtil.INSTANCE.getConnection();
-    private MovieService movieService = new MovieServiceImpl(JacksonUtil.OBJECT_MAPPER);
-    private MovieRepository movieRepository = new H2MovieRepository(connection, new H2RatingsRepository(connection));
-    private UserPreferences userPreferences = new UserPreferences();
-    private APIQueries apiQueries = new APIQueries(userPreferences);
+
+    private Connection connection;
+    private MovieService movieService;
+    private MovieRepository movieRepository;
+    private UserPreferences userPreferences;
+    private APIQueries apiQueries;
+
+    public void init() {
+        connection = JDBCUtil.INSTANCE.getConnection();
+        movieService = new MovieServiceImpl(JacksonUtil.OBJECT_MAPPER);
+        movieRepository = new H2MovieRepository(connection, new H2RatingsRepository(connection));
+        userPreferences = new UserPreferences();
+        apiQueries = new APIQueries(userPreferences);
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
@@ -42,8 +50,20 @@ public class MovieController extends HttpServlet {
 
             request.setAttribute("results", results);
             request.getRequestDispatcher("search.html").forward(request, response);
-        } else if (requestURI.equalsIgnoreCase("/movies")) {
-            List<Movie> movies = movieRepository.findAll();
+        } else if (requestURI.startsWith("/movies")) {
+            int currentPage = 1;
+            String reqCurrentPage = request.getParameter("current-page");
+            if(reqCurrentPage != null) {
+                currentPage = Integer.parseInt(reqCurrentPage);
+            }
+
+            int pageSize = 5;
+            List<Movie> movies = movieRepository.findAllByPage(pageSize, currentPage);
+            int recordsSize = movieRepository.getRecordsSize();
+            int totalPages = (int) Math.ceil(recordsSize * 1.0 / pageSize);
+
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentPage", currentPage);
             request.setAttribute("movies", movies);
             request.getRequestDispatcher("movies.html").forward(request, response);
         }

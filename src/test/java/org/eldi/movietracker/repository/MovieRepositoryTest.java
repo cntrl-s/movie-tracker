@@ -42,8 +42,7 @@ public class MovieRepositoryTest {
         assertThrows(NullPointerException.class, () -> {
             MovieRepository movieRepository = new
                     H2MovieRepository(connection, ratingsRepository);
-        }
-        );
+        });
     }
 
     @Test
@@ -55,7 +54,7 @@ public class MovieRepositoryTest {
                 () -> repository.save(movie),
                 "Must fail when adding duplicate entry");
 
-        List<Movie> movies = repository.findAll();
+        List<Movie> movies = repository.findAllByPage(1,1);
         assertEquals(1, movies.size());
 
         Movie actual = movies.get(0);
@@ -70,7 +69,7 @@ public class MovieRepositoryTest {
         assertEquals(expected.getTitle(), findByTitle.get().getTitle());
 
         repository.delete(actual.getId());
-        movies = repository.findAll();
+        movies = repository.findAllByPage(1,1);
         assertEquals(0, movies.size());
     }
 

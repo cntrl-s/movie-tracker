@@ -32,5 +32,16 @@
         <td th:text="${movie.imdbRating}"></td>
     </tr>
 </table>
+<div th:if="${totalPages > 0}" class="pagination">
+    <a th:if="${currentPage > 1}"
+       th:href="@{/movies(current-page=${currentPage - 1})}">&laquo;</a>
+
+    <a th:each="i : ${#numbers.sequence(1, totalPages)}"
+       th:href="@{/movies(current-page=${i})}"
+       th:text=${i}></a>
+
+    <a th:if="${currentPage < totalPages}"
+       th:href="@{/movies(current-page=${currentPage + 1})}">&raquo;</a>
+</div>
 </body>
 </html>

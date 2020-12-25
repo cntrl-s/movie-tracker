@@ -11,7 +11,7 @@ public interface MovieRepository {
 
     Optional<Movie> find(int id);
 
-    /*
+    /**
      * @param title name of the movie to search.
      * @return {@link Movie} or {@code null }if not found
      */
@@ -19,7 +19,15 @@ public interface MovieRepository {
 
     void update(String title);
 
-    List<Movie> findAll();
+    /**
+     *
+     * @param pageSize number of records to return
+     * @param currentPage current page number
+     * @return {@link List} of {@link Movie} with {@code pageSize} number of values
+     */
+    List<Movie> findAllByPage(int pageSize, int currentPage);
 
     void delete(int id);
+
+    int getRecordsSize();
 }
