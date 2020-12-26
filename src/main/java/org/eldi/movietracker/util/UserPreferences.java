@@ -13,7 +13,6 @@ public class UserPreferences {
         return userAPIKeyValue;
     }
 
-    // TODO test
     void setAPIKey(String apiKey) throws InvalidAPIKeyException {
         if (keyIsValid(apiKey)) {
             preferences.put(API_KEY, apiKey);

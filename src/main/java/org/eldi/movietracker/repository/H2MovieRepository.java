@@ -32,7 +32,7 @@ public class H2MovieRepository implements MovieRepository {
 
         Object[] values = extractValues(movie);
 
-        try (PreparedStatement statement = setStatement(connection, sql, true, values)) {
+        try (PreparedStatement statement = statementBuilder(connection, sql, true, values)) {
 
             int affectedRows = statement.executeUpdate();
 
@@ -46,7 +46,6 @@ public class H2MovieRepository implements MovieRepository {
 
             if (keys.next()) {
                 movie.setId(keys.getInt(1));
-
                 System.out.println("Id for movie '" + movie.getTitle() + "' set as - " + movie.getId());
             } else {
                 throw new DAOException("Failed to get generated keys for " + movie.getType() + " " + movie.getTitle());
@@ -58,6 +57,7 @@ public class H2MovieRepository implements MovieRepository {
         }
     }
 
+    // TODO polymorphic find
     public Optional<Movie> find(int id) {
         Movie movie = null;
 
@@ -102,7 +102,7 @@ public class H2MovieRepository implements MovieRepository {
 
         Object[] values = extractValues(movie);
 
-        PreparedStatement statement = setStatement(connection, sql, true, values);
+        PreparedStatement statement = statementBuilder(connection, sql, true, values);
         try {
             statement.setObject(values.length + 1, movie.getId());// sql where id = ?
 
@@ -170,7 +170,6 @@ public class H2MovieRepository implements MovieRepository {
         return rowCount;
     }
 
-    // TODO move to new file
     /**
      * @param connection       {@link Connection} to create {@link PreparedStatement}
      * @param sql              SQL Query to execute
@@ -178,8 +177,8 @@ public class H2MovieRepository implements MovieRepository {
      * @param values           values to be set on the {@link PreparedStatement}
      * @return {@link PreparedStatement} constructed with given values and parameters
      */
-    static PreparedStatement setStatement(Connection connection, String sql,
-                                          boolean getGeneratedKeys, Object[] values) {
+    static PreparedStatement statementBuilder(Connection connection, String sql,
+                                              boolean getGeneratedKeys, Object[] values) {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql,
@@ -202,7 +201,7 @@ public class H2MovieRepository implements MovieRepository {
      * @return {@link Object} array containing all the extracted values
      */
     Object[] extractValues(Movie movie) {
-        Object[] values = {
+        return new Object[] {
                 movie.getTitle(),
                 movie.getYear(),
                 movie.getRated(),
@@ -223,7 +222,6 @@ public class H2MovieRepository implements MovieRepository {
                 movie.getImdbID(),
                 movie.getType().name(),
         };
-        return values;
     }
 
     Movie mapResultSet(ResultSet rs) throws SQLException {

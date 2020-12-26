@@ -75,6 +75,7 @@ public class MovieController extends HttpServlet {
                 request.getRequestDispatcher("movie-search.html").forward(request, response);
             } else {
                 response.getWriter().print("No movies found");
+                //TODO ratings view
             }
         }
     }

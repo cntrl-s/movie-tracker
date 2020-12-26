@@ -30,11 +30,17 @@ public class H2RatingsRepository implements RatingsRepository {
                     movieId
             };
 
-            try (PreparedStatement statement = H2MovieRepository.setStatement(connection, sql, false, values)) {
+            try (PreparedStatement statement = H2MovieRepository.statementBuilder(connection, sql, true, values)) {
 
+                // TODO batch update
                 int affectedRows = statement.executeUpdate();
                 if (affectedRows < 1) {
                     throw new DAOException("Failed to save '" + rating + "' for movie id " + movieId);
+                }
+
+                ResultSet keys = statement.getGeneratedKeys();
+                if (keys.next()) {
+                    rating.setId(keys.getInt(1));
                 }
                 System.out.println("Rows affected - " + affectedRows + ", for '" + rating + "'");
             } catch (SQLException e) {
@@ -61,7 +67,6 @@ public class H2RatingsRepository implements RatingsRepository {
 
                 ratings.add(rating);
             }
-            // TODO keys
         } catch (SQLException e) {
             throw new DAOException("Failed to fetch ratings for movie id - " + movieId, e);
         }
