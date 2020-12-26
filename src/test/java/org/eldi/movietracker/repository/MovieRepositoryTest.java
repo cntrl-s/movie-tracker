@@ -65,6 +65,9 @@ public class MovieRepositoryTest {
         List<Movie> findByTitle = repository.findByTitle(title);
         assertTrue(findByTitle.get(0).getTitle().contains(title));
 
+        actual.setTitle("test");
+        repository.update(actual);
+
         repository.delete(actual.getId());
         movies = repository.findAllByPage(1,1);
         assertEquals(0, movies.size(), "Size should be 0 after deleting");

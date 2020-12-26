@@ -30,27 +30,7 @@ public class H2MovieRepository implements MovieRepository {
     public void save(Movie movie) {
         String sql = SQLUtil.INSERT_MOVIE_QUERY;
 
-        Object[] values = {
-                movie.getTitle(),
-                movie.getYear(),
-                movie.getRated(),
-                java.sql.Date.valueOf(movie.getReleased()),
-                movie.getRuntime(),
-                movie.getGenre(),
-                movie.getDirector(),
-                movie.getWriter(),
-                movie.getActors(),
-                movie.getPlot(),
-                movie.getLanguage(),
-                movie.getCountry(),
-                movie.getAwards(),
-                movie.getPoster(),
-                movie.getMetaScore(),
-                movie.getImdbRating(),
-                movie.getImdbVotes(),
-                movie.getImdbID(),
-                movie.getType().name(),
-        };
+        Object[] values = extractValues(movie);
 
         try (PreparedStatement statement = setStatement(connection, sql, true, values)) {
 
@@ -117,9 +97,23 @@ public class H2MovieRepository implements MovieRepository {
         return movies;
     }
 
-    // TODO UPDATE statement
-    public void update(String title) {
+    public void update(Movie movie) {
+        String sql = SQLUtil.UPDATE_MOVIE_QUERY;
 
+        Object[] values = extractValues(movie);
+
+        PreparedStatement statement = setStatement(connection, sql, true, values);
+        try {
+            statement.setObject(values.length + 1, movie.getId());// sql where id = ?
+
+            int i = statement.executeUpdate();
+            if (i < 1) {
+                throw new DAOException("Failed to update " + movie.getType() + " '" + movie.getTitle() + "'");
+            }
+            System.out.println("Updated " + movie.getType() + " '" + movie.getTitle() + "'");
+        } catch (SQLException e) {
+            throw new DAOException("Failed to update " + movie.getType() + " ' " + movie.getTitle() + " '", e);
+        }
     }
 
     public List<Movie> findAllByPage(int pageSize, int currentPage) {
@@ -178,11 +172,11 @@ public class H2MovieRepository implements MovieRepository {
 
     // TODO move to new file
     /**
-     * @param connection       {@link Connection} to create {@link PreparedStatement}.
-     * @param sql              SQL Query to execute.
-     * @param getGeneratedKeys constructs statement to return generated keys if {@code true}.
-     * @param values           values to be set on the {@link PreparedStatement}.
-     * @return {@link PreparedStatement} set with given parameters or empty {@link Optional} instance.
+     * @param connection       {@link Connection} to create {@link PreparedStatement}
+     * @param sql              SQL Query to execute
+     * @param getGeneratedKeys constructs statement to return generated keys if {@code true}
+     * @param values           values to be set on the {@link PreparedStatement}
+     * @return {@link PreparedStatement} constructed with given values and parameters
      */
     static PreparedStatement setStatement(Connection connection, String sql,
                                           boolean getGeneratedKeys, Object[] values) {
@@ -199,6 +193,37 @@ public class H2MovieRepository implements MovieRepository {
             e.printStackTrace();
         }
         return statement;
+    }
+
+    /**
+     * Extract all the field values associated with the given {@code movie} and
+     * convert them to appropriate sql types.
+     * @param movie {@link Movie} whose values are to be extracted
+     * @return {@link Object} array containing all the extracted values
+     */
+    Object[] extractValues(Movie movie) {
+        Object[] values = {
+                movie.getTitle(),
+                movie.getYear(),
+                movie.getRated(),
+                java.sql.Date.valueOf(movie.getReleased()),
+                movie.getRuntime(),
+                movie.getGenre(),
+                movie.getDirector(),
+                movie.getWriter(),
+                movie.getActors(),
+                movie.getPlot(),
+                movie.getLanguage(),
+                movie.getCountry(),
+                movie.getAwards(),
+                movie.getPoster(),
+                movie.getMetaScore(),
+                movie.getImdbRating(),
+                movie.getImdbVotes(),
+                movie.getImdbID(),
+                movie.getType().name(),
+        };
+        return values;
     }
 
     Movie mapResultSet(ResultSet rs) throws SQLException {

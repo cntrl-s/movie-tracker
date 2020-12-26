@@ -17,7 +17,7 @@ public interface MovieRepository {
      */
     List<Movie> findByTitle(String title);
 
-    void update(String title);
+    void update(Movie movie);
 
     /**
      *

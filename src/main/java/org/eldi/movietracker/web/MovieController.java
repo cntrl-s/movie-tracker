@@ -70,13 +70,16 @@ public class MovieController extends HttpServlet {
             String title = request.getParameter("movie-query");
             List<Movie> movieResults = movieRepository.findByTitle(title);
 
-            request.setAttribute("movieResults", movieResults);
-            request.getRequestDispatcher("movie-search.html").forward(request, response);
-            // TODO else no results found
+            if (movieResults.size() >= 1) {
+                request.setAttribute("movieResults", movieResults);
+                request.getRequestDispatcher("movie-search.html").forward(request, response);
+            } else {
+                response.getWriter().print("No movies found");
+            }
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getRequestURI().equalsIgnoreCase("/save")) {
             String imdbID = request.getParameter("imdb-id");
 
@@ -86,8 +89,7 @@ public class MovieController extends HttpServlet {
 
                 movieRepository.save(movie);
             } else {
-                // TODO write to view
-                System.out.println("Invalid imdb id");
+                response.getWriter().print("Invalid imdb id");
             }
         }
     }
