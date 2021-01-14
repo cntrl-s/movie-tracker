@@ -14,6 +14,6 @@ mvn package
 
 - Build the project and run the jar using your terminal or command line as :
 ```sh
-java -jar /path/to/download-location/movie-tracker.jar
+java -jar /path/to/jar-location/movie-tracker.jar
 ````
 - Now open your web browser and go to `localhost:8080`
