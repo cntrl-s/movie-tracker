@@ -63,8 +63,7 @@ public class H2MovieRepository implements MovieRepository {
 
         String sql = SQLUtil.FIND_BY_ID_QUERY;
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, id);
+        try (PreparedStatement statement = statementBuilder(connection, sql, false, id)) {
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -82,11 +81,12 @@ public class H2MovieRepository implements MovieRepository {
     public List<Movie> findByTitle(String title) {
         String sql = SQLUtil.FIND_BY_TITLE_QUERY;
         List<Movie> movies = new ArrayList<>();
+        String sqlLikePattern = "%" + title + "%";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, "%" + title + "%");
+        try (PreparedStatement statement = statementBuilder(connection, sql, false, sqlLikePattern)) {
 
             ResultSet resultSet = statement.executeQuery();
+
             while (resultSet.next()) {
                 Movie movie = mapResultSet(resultSet);
                 movies.add(movie);
@@ -94,6 +94,25 @@ public class H2MovieRepository implements MovieRepository {
         } catch (SQLException e) {
             throw new DAOException("Failed to find " + title, e);
         }
+        return movies;
+    }
+
+    public List<Movie> findAllByPage(int pageSize, int currentPage) {
+        List<Movie> movies = new ArrayList<>(pageSize);
+        int offset = (currentPage - 1) * pageSize;
+        String sql = String.format(SQLUtil.FIND_MOVIES_QUERY, pageSize, offset);
+
+        try (PreparedStatement statement = statementBuilder(connection, sql, false)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Movie movie = mapResultSet(resultSet);
+                movies.add(movie);
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Failed to fetch movies for page - " + currentPage, e);
+        }
+
         return movies;
     }
 
@@ -111,28 +130,10 @@ public class H2MovieRepository implements MovieRepository {
                 throw new DAOException("Failed to update " + movie.getType() + " '" + movie.getTitle() + "'");
             }
             System.out.println("Updated " + movie.getType() + " '" + movie.getTitle() + "'");
+            // TODO update ratings, try with resources
         } catch (SQLException e) {
             throw new DAOException("Failed to update " + movie.getType() + " ' " + movie.getTitle() + " '", e);
         }
-    }
-
-    public List<Movie> findAllByPage(int pageSize, int currentPage) {
-        List<Movie> movies = new ArrayList<>(pageSize);
-        int offset = (currentPage - 1) * pageSize;
-        String sql = String.format(SQLUtil.FIND_MOVIES_QUERY, pageSize, offset);
-
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Movie movie = mapResultSet(resultSet);
-                movies.add(movie);
-            }
-        } catch (SQLException e) {
-            throw new DAOException("Failed to fetch movies for page - " + currentPage, e);
-        }
-
-        return movies;
     }
 
     public void delete(int id) {
@@ -178,7 +179,7 @@ public class H2MovieRepository implements MovieRepository {
      * @return {@link PreparedStatement} constructed with given values and parameters
      */
     static PreparedStatement statementBuilder(Connection connection, String sql,
-                                              boolean getGeneratedKeys, Object[] values) {
+                                              boolean getGeneratedKeys, Object... values) {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql,
