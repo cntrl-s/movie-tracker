@@ -8,12 +8,16 @@ public class UserPreferences {
     private static final String API_KEY = "api_key";
     private static Preferences preferences = Preferences.userNodeForPackage(Preferences.class);
 
-    String getAPIKey() {
+    /**
+     *
+     * @return API key if saved or "default"
+     */
+    public String getAPIKey() {
         String userAPIKeyValue = preferences.get(API_KEY, "default");
         return userAPIKeyValue;
     }
 
-    void setAPIKey(String apiKey) throws InvalidAPIKeyException {
+    public void setAPIKey(String apiKey) throws InvalidAPIKeyException {
         if (keyIsValid(apiKey)) {
             preferences.put(API_KEY, apiKey);
         } else {

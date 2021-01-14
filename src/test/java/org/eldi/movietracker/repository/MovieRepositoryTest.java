@@ -28,7 +28,7 @@ public class MovieRepositoryTest {
         ratingsRepository = new H2RatingsRepository(connection);
         repository = new H2MovieRepository(connection, ratingsRepository);
 
-        File json = new File("src/main/resources/test.json");
+        File json = new File("src/test/resources/test.json");
         movie = JacksonUtil.OBJECT_MAPPER.readValue(json, Movie.class);
     }
 

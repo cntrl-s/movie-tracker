@@ -1,5 +1,6 @@
 package org.eldi.movietracker.web;
 
+import org.eldi.movietracker.exception.InvalidAPIKeyException;
 import org.eldi.movietracker.service.MovieService;
 import org.eldi.movietracker.service.MovieServiceImpl;
 import org.eldi.movietracker.model.Movie;
@@ -41,7 +42,9 @@ public class MovieController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
 
-        if (requestURI.equalsIgnoreCase("/")) {
+        if (requestURI.equalsIgnoreCase("/") && userPreferences.getAPIKey().equals("default")) {
+            request.getRequestDispatcher("apikey.html").forward(request, response);
+        } else if (requestURI.equalsIgnoreCase("/")) {
             request.getRequestDispatcher("home.html").forward(request, response);
         } else if (requestURI.equalsIgnoreCase("/search")) {
             String query = request.getParameter("query");
@@ -81,7 +84,9 @@ public class MovieController extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (request.getRequestURI().equalsIgnoreCase("/save")) {
+
+        String requestURI = request.getRequestURI();
+        if (requestURI.equalsIgnoreCase("/save")) {
             String imdbID = request.getParameter("imdb-id");
 
             if (imdbID != null) {
@@ -91,6 +96,15 @@ public class MovieController extends HttpServlet {
                 movieRepository.save(movie);
             } else {
                 response.getWriter().print("Invalid imdb id");
+            }
+        } else if (requestURI.equalsIgnoreCase("/submit-apikey")) {
+            String apiKey = request.getParameter("api-key");
+            try {
+                userPreferences.setAPIKey(apiKey);
+                response.sendRedirect("/");
+            } catch (InvalidAPIKeyException e) {
+                response.getWriter().print("API Key invalid");
+                e.printStackTrace();
             }
         }
     }

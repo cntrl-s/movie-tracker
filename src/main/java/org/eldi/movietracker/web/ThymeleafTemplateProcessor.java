@@ -31,7 +31,9 @@ public class ThymeleafTemplateProcessor extends HttpServlet {
 
         WebContext thContext = new WebContext(request, response, request.getServletContext());
 
-        if (requestURI.equalsIgnoreCase("/home.html")) {
+        if (requestURI.equalsIgnoreCase("/apikey.html")) {
+            templateEngine.process("apikey", thContext, response.getWriter());
+        } else if (requestURI.equalsIgnoreCase("/home.html")) {
             templateEngine.process("home", thContext, response.getWriter());
         } else if (requestURI.equalsIgnoreCase("/search.html")) {
             templateEngine.process("search", thContext, response.getWriter());
